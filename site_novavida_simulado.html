@@ -1,0 +1,372 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>NovaVida Consultoria — Simulação</title>
+<style>
+  :root{
+    --bg:#f4f6f8; --card:#ffffff; --primary:#0b6efd; --muted:#6b7280;
+  }
+  body{margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--bg); color:#0f1724;}
+  header{background:linear-gradient(90deg,#062b6b,#0b6efd); color:white; padding:36px 20px; text-align:center;}
+  .container{max-width:1100px;margin:24px auto;padding:0 16px;}
+  nav{display:flex;gap:12px;justify-content:center;margin-top:12px;flex-wrap:wrap;}
+  nav a{color:rgba(255,255,255,0.95); text-decoration:none; font-weight:600; padding:8px 12px; border-radius:8px; background:rgba(255,255,255,0.06);}
+  .hero{display:flex;gap:24px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:28px;background:var(--card); border-radius:12px; box-shadow:0 6px 20px rgba(2,6,23,0.06);}
+  .hero h1{margin:0;font-size:28px;}
+  .hero p{margin:6px 0 0;color:var(--muted);}
+  .cta{margin-top:12px;}
+  .btn{background:var(--primary);color:white;padding:10px 16px;border-radius:10px;border:none;font-weight:700;cursor:pointer;}
+  .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:20px;}
+  .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.04);}
+  h2{margin:0 0 8px;}
+  ul{margin:8px 0 0;padding-left:18px;color:var(--muted);}
+  .professionals{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
+  .prof{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:10px;background:linear-gradient(180deg,#fafafa,#fff);box-shadow:0 4px 10px rgba(2,6,23,0.03);}
+  .avatar{width:64px;height:64px;border-radius:10px;background:linear-gradient(90deg,#0b6efd,#06b6d4);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:18px;}
+  .small{font-size:13px;color:var(--muted);}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+  .tab{padding:8px 12px;border-radius:8px;background:#eef2ff;color:#0b6efd;cursor:pointer;font-weight:600;}
+  .tab.active{background:var(--primary);color:white;}
+  .tab-content{margin-top:12px;}
+  label.small{display:block;margin-top:8px;font-size:13px;color:var(--muted);}
+  input, select, textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #e6eef8;margin-top:6px;box-sizing:border-box;}
+  footer{padding:20px;text-align:center;color:var(--muted);margin-top:24px;}
+  .price-output{font-weight:800;font-size:20px;margin-top:8px;color:#0b6efd;}
+  .muted-note{font-size:13px;color:#475569;margin-top:6px;}
+  .flex{display:flex;gap:8px;align-items:center;}
+  @media(max-width:700px){ .hero{flex-direction:column;align-items:flex-start;} nav{justify-content:center;} }
+</style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <h1>NovaVida Consultoria</h1>
+    <p style="margin:6px 0 0;opacity:0.95;">Consultoria personalizada para organizar sua vida profissional e pessoal de acordo com sua realidade.</p>
+    <nav style="margin-top:16px;">
+      <a href="#sobre">Quem Somos</a>
+      <a href="#jornada">Comece Sua Jornada</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#profissionais">Profissionais</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container" style="margin-top:18px;">
+  <section class="hero">
+    <div style="flex:1;">
+      <h1>Transforme sua rotina. Alcance objetivos reais.</h1>
+      <p class="small">Planos personalizados por faixa de renda — pessoas que ganham 1 salário mínimo recebem consultoria gratuita.</p>
+      <div class="cta">
+        <button class="btn" onclick="document.getElementById('jornada').scrollIntoView({behavior:'smooth'})">Comece Sua Jornada</button>
+      </div>
+    </div>
+    <div style="width:320px;">
+      <div class="card">
+        <h3 style="margin:0 0 8px;">Calcule o valor da sua consultoria</h3>
+        <label class="small">Renda mensal (R$)</label>
+        <input type="number" id="income" placeholder="Ex: 2500" value="" />
+        <label class="small">Salário mínimo atual (R$) — opcional</label>
+        <input type="number" id="minw" placeholder="Deixe em branco para marcar 'sou salário mínimo'" />
+        <div style="display:flex;gap:8px;margin-top:8px;">
+          <label style="display:flex;align-items:center;gap:8px;"><input type="checkbox" id="isMin"/> Eu recebo 1 salário mínimo</label>
+        </div>
+        <button class="btn" style="margin-top:10px;" onclick="calcPrice()">Calcular</button>
+        <div id="price" class="price-output">—</div>
+        <div class="muted-note">Transparência: oferecemos faixas de preço para garantir acesso a todos. Resultado aproximado — entre em contato para proposta personalizada.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sobre" class="card" style="margin-top:18px;">
+    <h2>Quem Somos — NovaVida</h2>
+    <p class="small">A NovaVida é uma stantap de consultoria criada por especialistas em finanças, gestão e marketing. Nosso propósito é entregar orientação prática e acessível para todas as classes sociais, com planos adaptados à sua renda e objetivos.</p>
+    <div style="margin-top:12px;">
+      <strong>Missão:</strong> Tornar a organização pessoal e profissional acessível e efetiva para qualquer pessoa.<br/>
+      <strong>Visão:</strong> Ser a referência em consultoria socialmente inclusiva no Brasil.<br/>
+      <strong>Valores:</strong> Empatia, transparência, eficácia e inclusão.
+    </div>
+  </section>
+
+  <section id="jornada" class="card">
+    <h2>Comece a sua jornada — Consultoria</h2>
+    <p class="small">Escolha um ponto de partida — nós adaptamos o plano ao seu bolso e à sua realidade.</p>
+
+    <div class="tabs" role="tablist" aria-label="Jornada">
+      <div class="tab active" data-tab="invest">Dicas de Investimento</div>
+      <div class="tab" data-tab="gestao">Gestão Pessoal</div>
+      <div class="tab" data-tab="cursos">Cursos Online</div>
+      <div class="tab" data-tab="mei">Tudo para ser MEI</div>
+      <div class="tab" data-tab="abrir">Como abrir empresa</div>
+      <div class="tab" data-tab="eventos">Cursos & Eventos</div>
+      <div class="tab" data-tab="produtos">Produtos & Serviços</div>
+      <div class="tab" data-tab="conteudos">Conteúdos</div>
+      <div class="tab" data-tab="ideias">Ideias de Negócios</div>
+      <div class="tab" data-tab="polos">Polos de Referência</div>
+    </div>
+
+    <div class="tab-content card" id="tab-invest">
+      <h3>Dicas de Investimento</h3>
+      <p class="small">Onde investir, quanto investir e como — mostramos opções básicas e seguras para cada faixa de renda.</p>
+      <ul>
+        <li><strong>Onde investir:</strong> Contas de alta liquidez, CDBs de bancos médios, Tesouro Direto (IPCA/SELIC) e fundos simples.</li>
+        <li><strong>Quanto investir:</strong> Comece com 5–10% da renda mensal; aumente conforme disciplina financeira.</li>
+        <li><strong>Como investir:</strong> Automatize contribuições, mantenha reserva de emergência e diversifique.</li>
+      </ul>
+    </div>
+
+    <div class="tab-content card" id="tab-gestao" style="display:none;">
+      <h3>Gestão Pessoal</h3>
+      <p class="small">Planejamento financeiro pessoal com foco em ganhos, perdas e descontos.</p>
+      <ul>
+        <li>Planilha simples de controle de gastos mensal.</li>
+        <li>Metas de curto, médio e longo prazo.</li>
+        <li>Estratégias de economia (50/30/20 adaptado por renda).</li>
+      </ul>
+    </div>
+
+    <div class="tab-content card" id="tab-cursos" style="display:none;">
+      <h3>Cursos Online</h3>
+      <p class="small">Seleção de cursos para fortalecer habilidades empreendedoras e financeiras — com opções gratuitas e pagas.</p>
+      <ul>
+        <li>Finanças Pessoais para Iniciantes (gratuito)</li>
+        <li>Gestão Comercial e Vendas (básico/intermediário)</li>
+        <li>Marketing Digital para Microempreendedores</li>
+      </ul>
+    </div>
+
+    <div class="tab-content card" id="tab-mei" style="display:none;">
+      <h3>Tudo para você ser MEI</h3>
+      <p class="small">Passo a passo para se formalizar como Microempreendedor Individual (MEI).</p>
+      <ol>
+        <li>Verifique se sua atividade é permitida como MEI.</li>
+        <li>Reúna documento pessoal e comprovante de endereço.</li>
+        <li>Faça o cadastro no Portal do Empreendedor e gere o CNPJ.</li>
+      </ol>
+    </div>
+
+    <div class="tab-content card" id="tab-abrir" style="display:none;">
+      <h3>Como abrir uma empresa</h3>
+      <p class="small">Guia prático com documentos, registros e primeiros passos administrativos.</p>
+      <ul>
+        <li>Escolha do tipo societário (MEI, LTDA, EIRELI, etc.)</li>
+        <li>Registro na Junta Comercial e obtenção de CNPJ</li>
+        <li>Inscrições fiscais e alvarás quando necessário</li>
+      </ul>
+    </div>
+
+    <div class="tab-content card" id="tab-eventos" style="display:none;">
+      <h3>Cursos e eventos próximos</h3>
+      <p class="small">Buscamos eventos por estado — deixe sua localização e receberá sugestões locais.</p>
+      <p class="small">Exemplo: Workshop de finanças pessoais — São Paulo — 20/12/2025 (simulação).</p>
+    </div>
+
+    <div class="tab-content card" id="tab-produtos" style="display:none;">
+      <h3>Produtos & Serviços</h3>
+      <p class="small">Ferramentas digitais e recursos recomendados.</p>
+      <ul>
+        <li>Planilhas automatizadas</li>
+        <li>Modelos de fluxo de caixa</li>
+        <li>Assinatura de acompanhamento mensal</li>
+      </ul>
+    </div>
+
+    <div class="tab-content card" id="tab-conteudos" style="display:none;">
+      <h3>Conteúdos</h3>
+      <p class="small">Artigos, vídeos, podcasts e e-books — tudo para apoiar sua jornada.</p>
+    </div>
+
+    <div class="tab-content card" id="tab-ideias" style="display:none;">
+      <h3>Ideias de Negócios</h3>
+      <p class="small">Centenas de ideias categorizadas por investimento inicial e tempo de retorno.</p>
+    </div>
+
+    <div class="tab-content card" id="tab-polos" style="display:none;">
+      <h3>Polos de Referência</h3>
+      <p class="small">Unidades de inteligência com cursos, atendimento e soluções locais.</p>
+    </div>
+
+  </section>
+
+  <section id="servicos" class="card">
+    <h2>Serviços principais</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Consultoria Financeira Personalizada</h3>
+        <p class="small">Plano adaptado à sua renda e objetivos.</p>
+      </div>
+      <div class="card">
+        <h3>Plano de Abertura de Empresa</h3>
+        <p class="small">Passo a passo e documentos para formalização.</p>
+      </div>
+      <div class="card">
+        <h3>Curso e Mentoria</h3>
+        <p class="small">Acompanhamento prático para tirar sua ideia do papel.</p>
+      </div>
+      <div class="card">
+        <h3>Produtos Digitais</h3>
+        <p class="small">Planilhas, modelos e ferramentas para gerir seu negócio.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="profissionais" class="card">
+    <h2>Conheça os nossos profissionais</h2>
+    <p class="small">Equipe multidisciplinar disponível para orientar você.</p>
+    <div class="professionals" style="margin-top:12px;">
+      <div class="prof">
+        <div class="avatar">EN</div>
+        <div>
+          <strong>Eduardo Nicolas — CEO</strong>
+          <div class="small">Experiência em liderança estratégica e desenvolvimento de negócios. Coordena a visão da empresa.</div>
+        </div>
+      </div>
+
+      <div class="prof">
+        <div class="avatar">HG</div>
+        <div>
+          <strong>Hugo — Consultor Financeiro</strong>
+          <div class="small">Especialista em planejamento financeiro, investimentos e reestruturação de dívidas.</div>
+        </div>
+      </div>
+
+      <div class="prof">
+        <div class="avatar">PB</div>
+        <div>
+          <strong>Pablo — Analista Financeiro</strong>
+          <div class="small">Analisa fluxos de caixa, orçamentos e cria planilhas personalizadas.</div>
+        </div>
+      </div>
+
+      <div class="prof">
+        <div class="avatar">EA</div>
+        <div>
+          <strong>Eduardo Augusto — Gestor Comercial</strong>
+          <div class="small">Foco em vendas, negociação e relacionamento com clientes.</div>
+        </div>
+      </div>
+
+      <div class="prof">
+        <div class="avatar">GB</div>
+        <div>
+          <strong>Gabriel — Marketing Digital</strong>
+          <div class="small">Planejamento de presença online, aquisição e conteúdos.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contato" class="card">
+    <h2>Solicite sua Consultoria</h2>
+    <p class="small">Preencha seus dados e vamos indicar o melhor plano para você.</p>
+    <form id="leadForm" onsubmit="handleSubmit(event)">
+      <label class="small">Nome completo</label>
+      <input type="text" id="name" required />
+      <label class="small">Email</label>
+      <input type="email" id="email" required />
+      <label class="small">WhatsApp</label>
+      <input type="text" id="phone" placeholder="(00) 00000-0000" required />
+      <label class="small">Renda mensal (R$)</label>
+      <input type="number" id="incomeForm" required />
+      <label class="small">Você recebe 1 salário mínimo?</label>
+      <select id="isMinForm">
+        <option value="no">Não</option>
+        <option value="yes">Sim</option>
+      </select>
+      <label class="small">Mensagem (opcional)</label>
+      <textarea id="message" rows="3"></textarea>
+      <div style="display:flex;gap:8px;margin-top:10px;align-items:center;">
+        <button class="btn" type="submit">Enviar Pedido</button>
+        <div id="sendResult" class="small" style="margin-left:6px;"></div>
+      </div>
+      <div class="muted-note" style="margin-top:8px;">Observação: pessoas que recebem 1 salário mínimo têm acesso gratuito ao plano básico. Nossa equipa fará uma avaliação e retornará por e-mail/WhatsApp.</div>
+    </form>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    © <strong>NovaVida Consultoria</strong> — Simulação · Todos os direitos reservados.
+  </div>
+</footer>
+
+<script>
+  // Tabs logic
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const target = tab.getAttribute('data-tab');
+      document.querySelectorAll('.tab-content').forEach(tc => tc.style.display = 'none');
+      const el = document.getElementById('tab-' + target);
+      if(el) el.style.display = 'block';
+      window.scrollTo({top: el ? el.offsetTop - 80 : 0, behavior:'smooth'});
+    });
+  });
+
+  // Pricing calculator logic
+  function calcPrice(){
+    const inc = parseFloat(document.getElementById('income').value || 0);
+    const minwInput = parseFloat(document.getElementById('minw').value || 0);
+    const isMin = document.getElementById('isMin').checked;
+    let minW = minwInput > 0 ? minwInput : null;
+
+    // If user checked "I receive minimum wage", show free
+    if(isMin){
+      document.getElementById('price').innerText = 'R$ 0 — Você tem direito à consultoria gratuita (salário mínimo).';
+      return;
+    }
+    // If minW provided and income <= minW => free
+    if(minW && inc > 0 && inc <= minW){
+      document.getElementById('price').innerText = 'R$ 0 — Você tem direito à consultoria gratuita (renda menor ou igual ao salário mínimo informado).';
+      return;
+    }
+
+    // If no income provided
+    if(!inc || inc <= 0){
+      document.getElementById('price').innerText = 'Informe sua renda mensal para calcular.';
+      return;
+    }
+
+    // Pricing tiers (exemplo transparente e simples):
+    // <= 2 * minW => R$ 50
+    // <= 5 * minW => R$ 200
+    // >5 * minW => R$ 500
+    // If minW not provided, use proportional tiers based on income absolute values
+    let price = 0;
+    if(minW){
+      if(inc <= 2 * minW) price = 50;
+      else if(inc <= 5 * minW) price = 200;
+      else price = 500;
+    } else {
+      if(inc <= 3000) price = 50;
+      else if(inc <= 10000) price = 200;
+      else price = 500;
+    }
+    document.getElementById('price').innerText = 'R$ ' + price.toFixed(2) + ' — Estimativa de valor da consultoria.';
+  }
+
+  // Form submit (simulation)
+  function handleSubmit(e){
+    e.preventDefault();
+    const data = {
+      nome: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      phone: document.getElementById('phone').value,
+      renda: document.getElementById('incomeForm').value,
+      recebe_min: document.getElementById('isMinForm').value,
+      mensagem: document.getElementById('message').value,
+      time: new Date().toISOString()
+    };
+    // Simulate sending by showing success and logging to console
+    document.getElementById('sendResult').innerText = 'Pedido enviado! Nós retornaremos em breve.';
+    console.log('Lead enviado (simulado):', data);
+    e.target.reset();
+  }
+</script>
+</body>
+</html>
