@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Consultoria Financeira</title>
+    <style>
+        body { font-family: Arial; padding: 20px; max-width: 600px; margin: auto; }
+        h1 { text-align: center; }
+        input, button { width: 100%; padding: 10px; margin-top: 10px; }
+        #resultado { margin-top: 20px; font-size: 18px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<h1>Simulador Financeiro</h1>
+
+<label>Renda Mensal (R$):</label>
+<input type="number" id="renda">
+
+<label>Gastos Mensais (R$):</label>
+<input type="number" id="gastos">
+
+<button onclick="calcular()">Calcular</button>
+
+<div id="resultado"></div>
+
+<script>
+function calcular() {
+    let renda = parseFloat(document.getElementById("renda").value);
+    let gastos = parseFloat(document.getElementById("gastos").value);
+
+    if (!renda || !gastos) {
+        document.getElementById("resultado").innerHTML = "Por favor, preencha os dois campos!";
+        return;
+    }
+
+    let sobra = renda - gastos;
+    let mensagem = "";
+
+    if (sobra > 0) {
+        mensagem = "Parabéns! Sua situação é positiva. Você pode economizar R$ " + sobra.toFixed(2);
+    } else if (sobra < 0) {
+        mensagem = "Atenção! Você está no negativo em R$ " + Math.abs(sobra).toFixed(2);
+    } else {
+        mensagem = "Seu orçamento está exatamente no zero.";
+    }
+
+    document.getElementById("resultado").innerHTML = mensagem;
+}
+</script>
+
+</body>
+</html>
+
